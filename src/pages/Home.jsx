@@ -4,10 +4,13 @@ import { Link } from "react-router-dom";
 
 import spoon from "../assests/spoon.svg";
 import food from "../assests/food.png";
+import Nav from "../components/header/Nav";
 
 const Home = () => {
   return (
     <div className="bg-bla h-auto lg:h-[100vh]">
+      <Nav />
+      
       <LandingStyle className="h-[88%] flex justify-between flex-col lg:flex-row lg:mt-2 mt-8">
         <div className="lg:w-1/2 w-[100%] h-full flex justify-center flex-col px-5 lg:pl-16 lg:pr-8 ">
           <p className="text-gray-50 text-xl tracking-widest">
