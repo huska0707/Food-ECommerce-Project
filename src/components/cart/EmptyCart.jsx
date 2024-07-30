@@ -27,10 +27,6 @@ const EmptyCart = () => {
 
 export default EmptyCart;
 
-// --------------------- //
-
-// styled components
-
 const EmptyCardStyling = styled.div`
   h1,
   h2 {
