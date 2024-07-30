@@ -1,10 +1,26 @@
-import React from "react";
+import React, { useContext } from "react";
+
 import Nav from "../components/header/Nav";
+import CartButtons from "../components/cart/CartButtons";
+import { context } from "../context/context";
+import Admin from "../administrator/administrator";
 
 const Cart = () => {
+  const contextConsumer = useContext(context);
+  const { cart, EmptyCartHandle } = contextConsumer;
+
   return (
     <>
       <Nav />
+
+      <div className="flex justify-center flex-col my-14 items-center">
+        <div className="flex justify-center items-center flex-wrap">
+          <CartButtons EmptyCartHandle={EmptyCartHandle} cart={cart} />
+        </div>
+        <div className="mt-10 -mb-10">
+          <Admin />
+        </div>
+      </div>
     </>
   );
 };
