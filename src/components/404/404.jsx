@@ -17,6 +17,9 @@ const PageNotFound = () => {
       <h3 className="my-4 font-semibold font-mono text-base  text-yel">
         Page Not Found
       </h3>
+      <p className="my-6 tracking-widest font-bold leading-6 hidden sm:block text-yel font-mono">
+        Sorry, I looked everywhere, and still came up empty handed !
+      </p>
       <Link
         to="/"
         className="py-5 px-10 bg-primary text-card bg-yel font-mono font-medium text-xl my-6 active:translate-y-1 transition-all"
