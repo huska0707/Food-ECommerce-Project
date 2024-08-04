@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { context } from "../context/context";
 import { Link } from "react-router-dom";
+import AddressForm from "./address-form/AddressForm";
 
 const Checkout = () => {
   const contextConsumer = useContext(context);
@@ -56,6 +57,12 @@ const Checkout = () => {
           ))}
         </div>
 
+        <AddressForm
+          Token={Token}
+          AddressFormData={AddressFormData}
+          setAddressFormData={setAddressFormData}
+        />
+        
         {!complete && currentStep !== steps.length && (
           <div className="w-full md:flex-row flex-col-reverse flex md:justify-between justify-center items-center px-5 md:h-[100px] h-[150px]">
             <Link
@@ -77,3 +84,5 @@ const Checkout = () => {
     </div>
   );
 };
+
+export default Checkout;
