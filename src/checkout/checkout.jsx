@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { context } from "../context/context";
 import { Link } from "react-router-dom";
 import AddressForm from "./address-form/AddressForm";
+import PaymentForm from "./payment-form/PaymentForm";
 
 const Checkout = () => {
   const contextConsumer = useContext(context);
@@ -32,6 +33,10 @@ const Checkout = () => {
     setCurrentStep((prev) => prev + 1);
   };
 
+  const BackBtnHandle = () => {
+    setCurrentStep((prev) => prev + 1);
+  };
+
   return (
     <div className="flex justify-center items-center py-10 ">
       <div className="xl:w-1/2 lg:w-2/3 w-full rounded-sm shadow-lg bg-gray-50">
@@ -56,13 +61,25 @@ const Checkout = () => {
             </div>
           ))}
         </div>
+        {currentStep === 1 && (
+          <AddressForm
+            Token={Token}
+            AddressFormData={AddressFormData}
+            setAddressFormData={setAddressFormData}
+          />
+        )}
 
-        <AddressForm
-          Token={Token}
-          AddressFormData={AddressFormData}
-          setAddressFormData={setAddressFormData}
-        />
-        
+        {currentStep === 2 && !complete && (
+          <PaymentForm
+            AddressFormData={AddressFormData}
+            Token={Token}
+            complete={complete}
+            setComplete={setComplete}
+            refreshCart={refreshCart}
+            BackBtnHandle={BackBtnHandle}
+          />
+        )}
+
         {!complete && currentStep !== steps.length && (
           <div className="w-full md:flex-row flex-col-reverse flex md:justify-between justify-center items-center px-5 md:h-[100px] h-[150px]">
             <Link

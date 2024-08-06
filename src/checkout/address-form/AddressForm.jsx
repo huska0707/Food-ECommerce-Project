@@ -1,5 +1,4 @@
 import React from "react";
-import { commerce } from "../../lib/commerce";
 import styled from "styled-components";
 
 const AddressForm = ({ AddressFormData, SetAddressFormData }) => {
