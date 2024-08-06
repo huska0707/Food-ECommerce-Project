@@ -1,18 +1,24 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { context } from "../context/context";
-import { Link } from "react-router-dom";
-import Complete from "./Complete/Complete";
+import { Link, useNavigate } from "react-router-dom";
+
 import AddressForm from "./address-form/AddressForm";
 import PaymentForm from "./payment-form/PaymentForm";
+import Complete from "./Complete/Complete";
+import { commerce } from "../lib/commerce";
+import "./checkout.css";
 
-const Checkout = () => {
+const Chechout = () => {
   const contextConsumer = useContext(context);
   const { Token, cart, refreshCart, setToken } = contextConsumer;
+
   const steps = ["Shipping Address", "Payment Details"];
   const [currentStep, setCurrentStep] = useState(1);
   const [complete, setComplete] = useState(false);
 
-  const [AddressFormData, setAddressFormData] = useState({
+  let navigate = useNavigate();
+
+  const [AddressFormData, SetAddressFormData] = useState({
     fname: "",
     lname: "",
     address: "",
@@ -35,13 +41,31 @@ const Checkout = () => {
   };
 
   const BackBtnHandle = () => {
-    setCurrentStep((prev) => prev + 1);
+    setCurrentStep((prev) => prev - 1);
   };
+
+  const generateTokenFunc = async () => {
+    let res = await commerce.checkout.generateToken(cart.id, {
+      type: "cart",
+    });
+    setToken(res);
+  };
+
+  useEffect(() => {
+    if (cart && cart.line_items && cart.line_items.length > 0) {
+      generateTokenFunc();
+    } else {
+      if (currentStep !== steps.length) {
+        navigate("/");
+      } else {
+        return;
+      }
+    }
+  }, [cart]);
 
   return (
     <div className="flex justify-center items-center py-10 ">
       <div className="xl:w-1/2 lg:w-2/3 w-full rounded-sm shadow-lg bg-gray-50">
-        {/* -------------------------- */}
         <h1 className="font-mono text-5xl mb-5 mt-10 text-center">Checkout</h1>
         <div className="flex justify-center pt-4 pb-10">
           {steps?.map((step, i) => (
@@ -62,14 +86,14 @@ const Checkout = () => {
             </div>
           ))}
         </div>
+
         {currentStep === 1 && (
           <AddressForm
             Token={Token}
             AddressFormData={AddressFormData}
-            setAddressFormData={setAddressFormData}
+            SetAddressFormData={SetAddressFormData}
           />
         )}
-
         {currentStep === 2 && !complete && (
           <PaymentForm
             AddressFormData={AddressFormData}
@@ -80,6 +104,7 @@ const Checkout = () => {
             BackBtnHandle={BackBtnHandle}
           />
         )}
+        {complete && <Complete />}
 
         {!complete && currentStep !== steps.length && (
           <div className="w-full md:flex-row flex-col-reverse flex md:justify-between justify-center items-center px-5 md:h-[100px] h-[150px]">
@@ -103,4 +128,4 @@ const Checkout = () => {
   );
 };
 
-export default Checkout;
+export default Chechout;
